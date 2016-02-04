@@ -1,5 +1,14 @@
 #Getting Started with MsDeploy
 
+##Why this guide
+I wrote this guide because I could not find examples that explicitly covered the use-cases I encounter, in an unambiguated way.
+Other developers have had trouble with their appSettings/connectionStrings regexes and fixing their scripts as I did.
+
+The scripts are in the root of the tutorial with names in recipe\__X_\__description_.bat format. They have all been tested and 
+suit progression on order 1 to 5 by following the text.
+
+I hope this guide helps you.
+
 ##Pre-requisites
 + Windows 10 Pro x64
 + IIS 10 installed and configured
@@ -9,14 +18,14 @@
 ![Site Default](/resources/iis_default_site.png)
 
 + Your preferred shell is elevated and configured
-You **should** have msdeploy in your path. If you are using [Cmder (Console Emulator)](http://cmder.net/) (as I am in all of the shell work here) then you can optionally define a local path for the session:  
+
++ You **should** have msdeploy in your path. If you are using [Cmder (Console Emulator)](http://cmder.net/) (as I am in all of the shell work here) then you can optionally define a local path for the session:  
 
 ```
 alias msdeploy=C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe
 ```
-otherwise alter each of the scripts used in these instructions.
 
-###References
+##References
 
 + [Web Deployment Tool](https://technet.microsoft.com/en-us/library/dd568996.aspx)
 
@@ -25,7 +34,7 @@ and buried within but required reading really:
 + [Key Concepts and Features](https://technet.microsoft.com/en-us/library/dd722763.aspx#BKMKSourcesAndDestinations)
 + [Using Parameters To Customize Synchronizations](https://technet.microsoft.com/en-us/library/ee338472.aspx)
 
-##Caveat-Emptor
+##Caveat Emptor
 
 The msdeploy tool is finicky with respect to spaces between arguments.eg. 
 ```
@@ -295,7 +304,7 @@ msdeploy.cmd ^
 
 The _parameters.xml_ file in both this package and the first package _param.zip_ are identical.
 
-###Setting the parameters in a file for automatedm deployment
+###Setting the parameters in a file for automated deployment
 
 This example will use a parameters file for the deployment _parameter_values_set.xml_ and will use the parameterised
 package as created previously.
@@ -329,3 +338,6 @@ IIs Admin shows:
 and the browser output:
 
 ![Browser shows params set](/resources/browser_params_set.png)
+
+###Wish list###
+I would like to see the ability to package from a raw folder structure outside of IIS.
