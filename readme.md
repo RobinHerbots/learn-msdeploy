@@ -239,3 +239,35 @@ have been applied:
 ![Confirm Manual Deployment](/resources/manually_deployed_browser.png)
 
 ###Scripted Deployment with Parameter values
+
+This section will cover supplying parameters to msdeploy when deploying the parameterised package.
+
+Some things to note:
+
++ You must supply all parameters.
++ Take care of typos and take note of the status on the command line after you run msdeploy.
++ In the param.zip package the site path is a parameter. When this parameter is set on the command line it
+will override any value in _-dest:iisApp_.
++ Make sure to specify the site **and** the application otherwise all virtual directories will be removed.
+
+```
+set this_cnn1=Data Source=(LocalDb)\MSSQLLocalDb;Initial Catalog={Params_Catalog};Integrated Security=SSPI;
+
+msdeploy.cmd ^
+   -verb:sync ^
+   -source:package=param.zip ^
+   -dest:iisApp=Default/app_params ^
+   -setParam:name="Site Path Name",value=Default/app_params ^
+   -setParam:name="Application setting 1",value="app1 value (params)" ^
+   -setParam:name="Application setting 2",value="app2 value (params)" ^
+   -setParam:name="Connection string 1",value="%this_cnn1%"
+```
+
+![Output of recipe 4](/resources/cmder_recipe_4.png)
+
+Checking IIS Admin we have:
+![IIS Site Default](/resources/iis_params.png)
+
+and the web output confirms that parameters have been applied:
+
+![Browser for Parameterised case](/resources/browser_params.png)
