@@ -9,9 +9,11 @@
 ![Site Default](/resources/iis_default_site.png)
 
 + Your preferred shell is elevated and configured
-You **should** have msdeploy in your path. If you are using cmder then you can optionally define a local path for the session:  
+You **should** have msdeploy in your path. If you are using [Cmder (Console Emulator)](http://cmder.net/) (as I am in all of the shell work here) then you can optionally define a local path for the session:  
 
-    alias msdeploy=C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe
+```
+alias msdeploy=C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe
+```
 otherwise alter each of the scripts used in these instructions.
 
 ###References
@@ -52,7 +54,8 @@ but the way I chose was via the web platform installer. Once Web Platform Instal
 
 ![Select Web Deploy 3.6 (or higher)](/resources/webpi-msdeploy-select.png)
 
-This action installed two packages for me as below:
+This action installed two packages for me as below: 
+
 ![Result of Install](/resources/webpi-msdeploy-installed.png)
 
 + Web Deploy 3.6
@@ -92,11 +95,13 @@ The test application will initially need to be in place at c:/inetpub/wwwroot
 Before we can use msdeploy copy the /app folder to c:/inetput/wwwroot (you may need elevated privileges or grant yourself modify permissions in that folder first).
 
 ![Copied to wwwroot](/resources/app_copy_to_wwwroot.png)
+
 Open IIS Admin again and refresh the Site->Default node.
 
 ![Site Default](/resources/app_configured.png)
 
 Browse to the web application /app as in the following image:
+
 ![Site Default](/resources/app_browse.png)
 
 ###Initial Conditions
@@ -146,7 +151,7 @@ msdeploy.cmd ^
   -source:package="app.zip" ^
   -dest:iisApp="Default/app_2",skipAppCreation=false
 ```
-![Deploy the package to app_2](/resources/cmder_recipe_2.png)
+![Deploy the package to app_2](/resources/cmder_recipe_2.png) 
 
 Open IIS Admin and refresh the Site->Default node and you should see app_2 as an application:
 
@@ -172,7 +177,6 @@ msdeploy.cmd ^
    -declareParam:name="Application setting 2",kind=XmlFile,scope=web.config,match=//appSettings/add[@key='app2']/@value,defaultValue="app2 value (default)",description="Enter a setting for app2" ^
    -declareParam:name="Connection string 1",kind=XmlFile,scope=web.config,match=//connectionStrings/add[@name='cnn1']/@connectionString,defaultValue="%this_cnn1%",description="Enter the connection string for cnn1"
 ```
-
 On the first line the connection string is set to a variable for easier reading but you can see the three parameters being declared with _-declareParam_, and critically the _match_ value which
 is the xpath through the web.config to the values. 
 
@@ -181,7 +185,7 @@ is the xpath through the web.config to the values.
 Take note of the number of parameters reported in the console window.
 
 **Check your work**
-In the -declareParam argument, take care to not include spaces between argument value eg.
+In the _-declareParam_ argument, take care to not include spaces between argument value eg.
 ```
 ..kind="XmlFile",scope=\\web.config$
 ```
@@ -209,6 +213,7 @@ Open IIS Admin, go to the Site->Default node and select "Import Application".
 ![Navigate to the parameterised package](/resources/man_import_selected.png)
 
 At this point you are shown the contents of what can be deployed and can optionally deselect items.
+
 ![What is in the box](/resources/man_import_package_contains.png)
 
 Note that at bottom right there is an _Advanced_ button. This has a nice option to perform a WhatIf install and see the output without committing.
