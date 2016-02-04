@@ -1,0 +1,1 @@
+msdeploy.cmd -verb:sync -source:iisApp="c:\inetpub\wwwroot\app" -dest:package="app.zip"

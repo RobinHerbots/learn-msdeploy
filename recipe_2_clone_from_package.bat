@@ -1,0 +1,1 @@
+msdeploy.cmd -verb:sync -source:package="app.zip" -dest:iisApp="Default/app_2",skipAppCreation=false
