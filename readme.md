@@ -339,5 +339,63 @@ and the browser output:
 
 ![Browser shows params set](/resources/browser_params_set.png)
 
-###Wish list###
-I would like to see the ability to package from a raw folder structure outside of IIS.
+###A Hack to package from a folder (as long as you have IIS locally)###
+I would like to see the ability to package from a raw folder structure outside of IIS. 
+At present using a zip will cause the following error:
+![Cant sync from a normal zip](/resources/hack_use_compression.png).
+
+The structure is similar although would be missing some settings. 
+
+In the mean time here is a hack I to create a package _app_copy.zip_ by copying the folder _/app to a directory
+in iis and the export out of there.
+
+This is _recipe_7_direct_from_path.bat_
+```
+ECHO ON
+
+rmdir /S /Q c:\inetpub\wwwroot\temp_app 
+mkdir c:\inetpub\wwwroot\temp_app
+
+CALL ^
+ msdeploy.cmd ^
+  -verb:sync ^
+  -source:contentPath=%~dp0app ^
+  -dest:contentPath=c:\inetpub\wwwroot\temp_app
+  
+REM Alternate 1
+
+REM CALL ^
+REM  msdeploy.cmd ^
+REM   -verb:sync ^
+REM   -source:iisApp=Default\temp_app ^
+REM   -dest:package=app_copy.zip
+  
+REM Alternate 2
+CALL ^
+ msdeploy.cmd ^
+  -verb:sync ^
+  -source:iisApp=c:\inetpub\wwwroot\temp_app ^
+  -dest:package=app_copy.zip
+
+rmdir /S /Q c:\inetpub\wwwroot\temp_app
+
+REM Just for the sake of it, deploy using the package
+
+CALL ^
+ msdeploy.cmd ^
+  -verb:sync ^
+  -source:package=app_copy.zip ^
+  -dest:iisApp=Default\app_copy,skipAppCreation=false
+```
+
+The _CALL_ statments are required as the _msdeploy.cmd_ exiting causes the script to exit prematurely.
+
+The following is a diff in Beyond Compare 3 that shows there is no significant difference in the correct package and the _hacked_ package:
+
+![Package compare](/resources/hack_recipe_compare.png)
+
+Nevertheless, for this simple app the deploy has worked.
+
+![What IIS thinks of the hack app](/resources/iis_deploy_hack.png)
+
+![Browser showing the app](/resources/browser_deploy_hack.png)
