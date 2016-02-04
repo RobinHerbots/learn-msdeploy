@@ -266,6 +266,7 @@ msdeploy.cmd ^
 ![Output of recipe 4](/resources/cmder_recipe_4.png)
 
 Checking IIS Admin we have:
+
 ![IIS Site Default](/resources/iis_params.png)
 
 and the web output confirms that parameters have been applied:
