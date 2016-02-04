@@ -4,7 +4,7 @@
 + Windows 10 Pro x64
 + IIS 10 installed and configured
 
-Your IIS Admin should show a default Site named __Default__
++ Your IIS Admin should show a default Site named __Default__
 
 ![Site Default](/resources/iis_default_site.png)
 
