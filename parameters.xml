@@ -1,0 +1,14 @@
+﻿<parameters>
+  <parameter name="Site Path Name" description="Full site path" defaultValue="Default/app" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="iisApp" match="Default/app" tags="IisApp" />
+  </parameter>
+  <parameter name="Application setting 1" description="Enter a setting for app1" defaultValue="app1 value (default)">
+    <parameterEntry kind="XmlFile" scope="web.config" match="//appSettings/add[@key='app1']/@value" />
+  </parameter>
+  <parameter name="Application setting 2" description="Enter a setting for app2" defaultValue="app2 value (default)">
+    <parameterEntry kind="XmlFile" scope="web.config" match="//appSettings/add[@key='app2']/@value" />
+  </parameter>
+  <parameter name="Connection string 1" description="Enter the connection string for cnn1" defaultValue="Data Source=(LocalDb)\MSSQLLocalDb;Initial Catalog={Default_Catalog};Integrated Security=SSPI;">
+    <parameterEntry kind="XmlFile" scope="web.config" match="//connectionStrings/add[@name='cnn1']/@connectionString" />
+  </parameter>
+</parameters>

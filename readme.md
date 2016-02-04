@@ -277,3 +277,20 @@ Checking IIS Admin we have:
 and the web output confirms that parameters have been applied:
 
 ![Browser for Parameterised case](/resources/browser_params.png)
+
+###Scripting a parameterized package using a parameter file
+
+This example will use a parameters.xml file in the root of this tutorial. It was extracted from param.zip and
+, alternatively you can _and will have to _ create your own in the future.
+
+```
+msdeploy.cmd ^
+   -verb:sync ^
+   -source:iisApp=Default/app ^
+   -dest:package=param_from_file.zip ^
+   -declareParamFile=parameters.xml
+```
+
+![Recipe 5 output](/resources/cmder_recipe_5.png)
+
+The _parameters.xml_ file in both this package and the first package _param.zip_ are identical.
