@@ -294,3 +294,38 @@ msdeploy.cmd ^
 ![Recipe 5 output](/resources/cmder_recipe_5.png)
 
 The _parameters.xml_ file in both this package and the first package _param.zip_ are identical.
+
+###Setting the parameters in a file for automatedm deployment
+
+This example will use a parameters file for the deployment _parameter_values_set.xml_ and will use the parameterised
+package as created previously.
+
+The _setParameters_ are defined in the file as
+
+```
+<parameters>
+  <setParameter name="Site Path Name" value="Default/app_params_set"/>
+  <setParameter name="Application setting 1" value="app1 value (set from file)"/>
+  <setParameter name="Application setting 2" value="app2 value (set from file)"/>\
+  <setParameter name="Connection string 1" value="Data Source=(LocalDb)\MSSQLLocalDb;Initial Catalog={Set_From_File_Catalog};Integrated Security=SSPI;"/>
+</parameters>
+```
+The command to deploy using these values is:
+```
+msdeploy.cmd ^
+   -verb:sync ^
+   -source:package=param_from_file.zip ^
+   -dest:iisApp=Default/app_set ^
+   -setParamFile=parameter_values_set.xml
+```
+Here is the output:
+
+![Recipe 6 output](/resources/cmder_recipe_6.png)
+
+IIs Admin shows:
+
+![New app using set parameters](/resources/iis_deployed_set.png)
+
+and the browser output:
+
+![Browser shows params set](/resources/browser_params_set.png)

@@ -1,0 +1,6 @@
+﻿<parameters>
+  <setParameter name="Site Path Name" value="Default/app_params_set"/>
+  <setParameter name="Application setting 1" value="app1 value (set from file)"/>
+  <setParameter name="Application setting 2" value="app2 value (set from file)"/>\
+  <setParameter name="Connection string 1" value="Data Source=(LocalDb)\MSSQLLocalDb;Initial Catalog={Set_From_File_Catalog};Integrated Security=SSPI;"/>
+</parameters>
