@@ -339,63 +339,19 @@ and the browser output:
 
 ![Browser shows params set](/resources/browser_params_set.png)
 
-###A Hack to package from a folder (as long as you have IIS locally)###
-I would like to see the ability to package from a raw folder structure outside of IIS. 
-At present using a zip will cause the following error:
-![Cant sync from a normal zip](/resources/hack_use_compression.png).
+###Scripting the parameterised deploy of a folder (website)
+This is the typical case where a build output or post processing has already occurred, 
+and you want to package directly from that folder. I initially had some trouble with
+this method due to the way the contentPath has to be specified. It needs to be absolute and
+neither_/app_ nor _app_ worked.
 
-The structure is similar although would be missing some settings. 
-
-In the mean time here is a hack I to create a package _app_copy.zip_ by copying the folder _/app to a directory
-in iis and the export out of there.
-
-This is _recipe_7_direct_from_path.bat_
+After reading this entry http://sedodream.com/PermaLink,guid,d9d1333e-0ff0-4fb4-b92a-72631e92442f.aspx I tried it again.
 ```
-ECHO ON
-
-rmdir /S /Q c:\inetpub\wwwroot\temp_app 
-mkdir c:\inetpub\wwwroot\temp_app
-
-CALL ^
- msdeploy.cmd ^
+msdeploy.cmd ^
   -verb:sync ^
   -source:contentPath=%~dp0app ^
-  -dest:contentPath=c:\inetpub\wwwroot\temp_app
-  
-REM Alternate 1
-
-REM CALL ^
-REM  msdeploy.cmd ^
-REM   -verb:sync ^
-REM   -source:iisApp=Default\temp_app ^
-REM   -dest:package=app_copy.zip
-  
-REM Alternate 2
-CALL ^
- msdeploy.cmd ^
-  -verb:sync ^
-  -source:iisApp=c:\inetpub\wwwroot\temp_app ^
-  -dest:package=app_copy.zip
-
-rmdir /S /Q c:\inetpub\wwwroot\temp_app
-
-REM Just for the sake of it, deploy using the package
-
-CALL ^
- msdeploy.cmd ^
-  -verb:sync ^
-  -source:package=app_copy.zip ^
-  -dest:iisApp=Default\app_copy,skipAppCreation=false
+  -dest:package=app_this_pack.zip ^
+  -declareParamFile=parameters.xml
 ```
+This would be ideal for a website that doesn't have a project file.
 
-The _CALL_ statments are required as the _msdeploy.cmd_ exiting causes the script to exit prematurely.
-
-The following is a diff in Beyond Compare 3 that shows there is no significant difference in the correct package and the _hacked_ package:
-
-![Package compare](/resources/hack_recipe_compare.png)
-
-Nevertheless, for this simple app the deploy has worked.
-
-![What IIS thinks of the hack app](/resources/iis_deploy_hack.png)
-
-![Browser showing the app](/resources/browser_deploy_hack.png)
