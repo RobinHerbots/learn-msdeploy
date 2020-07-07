@@ -1,6 +1,6 @@
-#Getting Started with MsDeploy
+# Getting Started with MsDeploy
 
-##Why this guide
+## Why this guide
 I wrote this guide because I could not find examples that explicitly covered the use-cases I encounter, in an unambiguated way.
 Other developers have had trouble with their appSettings/connectionStrings regexes and fixing their scripts as I did.
 
@@ -9,7 +9,7 @@ suit progression on order 1 to 5 by following the text.
 
 I hope this guide helps you.
 
-##Pre-requisites
+## Pre-requisites
 + Windows 10 Pro x64
 + IIS 10 installed and configured
 
@@ -25,7 +25,7 @@ I hope this guide helps you.
 alias msdeploy=C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe
 ```
 
-##References
+## References
 
 + [Web Deployment Tool](https://technet.microsoft.com/en-us/library/dd568996.aspx)
 
@@ -34,7 +34,7 @@ and buried within but required reading really:
 + [Key Concepts and Features](https://technet.microsoft.com/en-us/library/dd722763.aspx#BKMKSourcesAndDestinations)
 + [Using Parameters To Customize Synchronizations](https://technet.microsoft.com/en-us/library/ee338472.aspx)
 
-##Caveat Emptor
+## Caveat Emptor
 
 The msdeploy tool is finicky with respect to spaces between arguments.eg. 
 ```
@@ -56,7 +56,7 @@ It is difficult to diagnose problems especially when importing the package into 
 
 Otherwise this is a great solution for parameterised installs that I wish I had learnt about earlier, and appears to be the glue that makes webmatrix deployments awesome :)
 
-##Installing MsDeploy
+## Installing MsDeploy
 
 One way to install is via direct link [Web Deploy 3.6](https://www.microsoft.com/en-us/download/details.aspx?id=43717)
 but the way I chose was via the web platform installer. Once Web Platform Installer it is started, search for _web deploy_:
@@ -113,7 +113,7 @@ Browse to the web application /app as in the following image:
 
 ![Site Default](/resources/app_browse.png)
 
-###Initial Conditions
+### Initial Conditions
 The initial conditions are that we have a small web application (single page!) with a web configuration file
 that is being read by the page. There are some settings that are being rendered to make it simpler to check that
 any changes we make can be verified:
@@ -124,9 +124,9 @@ any changes we make can be verified:
 
 This app is then what we are concentrating our packaging and deployment activities on.
 
-##Packaging Examples 
+## Packaging Examples 
 
-###Package the app as-is  
+### Package the app as-is  
     
 This step is the simplest. The script will package the IIS App (app) into a zip file ready for deployment.
 
@@ -150,7 +150,7 @@ msdeploy.cmd ^
   -dest:package="app.zip"
 ```
 
-###Deploy the package to the Site->Default as app_2
+### Deploy the package to the Site->Default as app_2
 
 In this step the script is deploying the _app.zip_ file package just created into a new application _app2_
 
@@ -170,7 +170,7 @@ Verify that all of the settings are as they were
 
 ![App 2 in browser](/resources/published_app_2_browser.png)
 
-###Parameterise the Package
+### Parameterise the Package
 
 For this step we will specify that the package should accept parameters for the two app settings keys and for the database connection string.
 
@@ -193,7 +193,7 @@ is the xpath through the web.config to the values.
 
 Take note of the number of parameters reported in the console window.
 
-**Check your work**
+** Check your work**
 In the _-declareParam_ argument, take care to not include spaces between argument value eg.
 ```
 ..kind="XmlFile",scope=\\web.config$
@@ -210,7 +210,7 @@ msdeploy.cmd -verb:getParameters -source:package=param.zip
 
 ![Output from verb:getParameters](/resources/cmder_recipe_3_check.png)
 
-###Manually Import the Parameterised Package
+### Manually Import the Parameterised Package
 
 In a following step we will provide the parameters at the command line but here the package will be
 manually imported to make it clear that the parameters are being detected.
@@ -252,7 +252,7 @@ have been applied:
 
 ![Confirm Manual Deployment](/resources/manually_deployed_browser.png)
 
-###Scripted Deployment with Parameter values
+### Scripted Deployment with Parameter values
 
 This section will cover supplying parameters to msdeploy when deploying the parameterised package.
 
@@ -287,7 +287,7 @@ and the web output confirms that parameters have been applied:
 
 ![Browser for Parameterised case](/resources/browser_params.png)
 
-###Scripting a parameterized package using a parameter file
+### Scripting a parameterized package using a parameter file
 
 This example will use a parameters.xml file in the root of this tutorial. It was extracted from param.zip and
 , alternatively you can _and will have to _ create your own in the future.
@@ -304,7 +304,7 @@ msdeploy.cmd ^
 
 The _parameters.xml_ file in both this package and the first package _param.zip_ are identical.
 
-###Setting the parameters in a file for automated deployment
+### Setting the parameters in a file for automated deployment
 
 This example will use a parameters file for the deployment _parameter_values_set.xml_ and will use the parameterised
 package as created previously.
@@ -339,7 +339,7 @@ and the browser output:
 
 ![Browser shows params set](/resources/browser_params_set.png)
 
-###Scripting the parameterised deploy of a folder (website)
+### Scripting the parameterised deploy of a folder (website)
 This is the typical case where a build output or post processing has already occurred, 
 and you want to package directly from that folder. I initially had some trouble with
 this method due to the way the contentPath has to be specified. It needs to be absolute and
